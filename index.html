@@ -3,226 +3,438 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#111827">
-<title>Sonesta Silver Oak - Cash Record</title>
+<title>Sonesta Silver Oak Monthly Cash Record</title>
 
 <style>
+/* =====================================================
+   ORIGINAL STYLE — GLOBAL
+===================================================== */
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--primary:#4f46e5;--purple:#7c3aed;--bg:#f3f4f6;--text:#111827;--muted:#6b7280;--border:#e5e7eb;--green:#059669;--red:#dc2626}
-body{font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#f8fafc,#eef2ff);color:var(--text);min-height:100vh}
-.app{max-width:560px;margin:auto;min-height:100vh}
-.header{background:linear-gradient(135deg,#111827,#312e81,#4f46e5);color:#fff;padding:24px 18px;border-radius:0 0 26px 26px;box-shadow:0 10px 30px #0002}
-.header-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.logo{display:flex;align-items:center;gap:11px}
-.logo-icon{background:#ffffff25;border-radius:14px;padding:12px;font-size:25px}
-.logo-title{font-size:19px;font-weight:800;line-height:1.3}
-.logo-subtitle{font-size:12px;opacity:.8;margin-top:4px}
-.month-badge{font-size:11px;background:#ffffff20;border:1px solid #ffffff30;padding:9px;border-radius:12px;white-space:nowrap}
+:root{
+  --primary:#4f46e5;
+  --primary-dark:#3730a3;
+  --secondary:#7c3aed;
+  --background:#f3f4f6;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --success:#059669;
+  --danger:#dc2626;
+  --warning:#d97706;
+  --border:#e5e7eb;
+  --radius:18px;
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:radial-gradient(circle at top left,rgba(99,102,241,.15),transparent 30%),
+             linear-gradient(135deg,#f8fafc,#eef2ff);
+  color:var(--text);
+  min-height:100vh;
+  -webkit-tap-highlight-color:transparent;
+}
+.app{width:100%;max-width:520px;margin:auto;min-height:100vh}
+
+/* =====================================================
+   HEADER
+===================================================== */
+.header{
+  padding:22px 18px 18px;
+  background:linear-gradient(135deg,#111827,#312e81,#4f46e5);
+  color:white;border-radius:0 0 28px 28px;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+  position:relative;overflow:hidden;
+}
+.header:after{
+  content:"";position:absolute;width:190px;height:190px;
+  border-radius:50%;background:rgba(255,255,255,.08);
+  right:-60px;top:-70px;
+}
+.header-top{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;position:relative;z-index:2;
+}
+.logo{display:flex;align-items:center;gap:10px;min-width:0}
+.logo-icon{
+  width:43px;height:43px;flex-shrink:0;display:flex;
+  align-items:center;justify-content:center;border-radius:13px;
+  background:rgba(255,255,255,.15);font-size:22px;
+}
+.logo-title{font-size:21px;font-weight:800;line-height:1.25}
+.logo-subtitle{font-size:11px;opacity:.75;margin-top:3px}
+
+/* Calendar-style month and year picker */
+.month-picker-wrap{
+  display:flex;flex-direction:column;align-items:flex-end;
+  gap:5px;flex-shrink:0;
+}
+.month-picker-label{
+  font-size:10px;text-transform:uppercase;
+  letter-spacing:.7px;color:rgba(255,255,255,.8);
+}
+.month-picker{
+  width:150px;min-width:0;
+  padding:9px 8px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:12px;
+  background:rgba(255,255,255,.13);
+  color:#fff;font-family:inherit;font-size:12px;
+  font-weight:700;cursor:pointer;outline:none;
+  color-scheme:dark;
+}
+.month-picker:focus{
+  border-color:#fff;
+  box-shadow:0 0 0 3px rgba(255,255,255,.15);
+}
+.month-picker::-webkit-calendar-picker-indicator{
+  cursor:pointer;filter:invert(1);
+}
+
+/* =====================================================
+   MAIN AND SUMMARY
+===================================================== */
 .main{padding:16px}
-.summary-card,.card{background:#fff;border-radius:19px;padding:18px;margin-bottom:16px;box-shadow:0 8px 25px #0f172a0c}
-.summary-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px}
-.summary-amount{font-size:34px;font-weight:850;margin:7px 0 16px;overflow-wrap:anywhere}
-.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.summary-mini{text-align:center;background:#f8fafc;padding:12px 5px;border-radius:12px}
-.summary-mini strong{display:block;font-size:17px}
-.summary-mini span{font-size:10px;color:var(--muted)}
-.card-title{font-size:17px;font-weight:800;margin-bottom:17px}
+.summary-card,.card{
+  background:var(--card);border-radius:var(--radius);
+  padding:18px;box-shadow:0 8px 25px rgba(15,23,42,.07);
+  margin-bottom:16px;
+}
+.summary-label{
+  color:var(--muted);font-size:12px;
+  text-transform:uppercase;letter-spacing:.7px;
+}
+.summary-amount{
+  font-size:32px;font-weight:850;margin-top:5px;
+  letter-spacing:-1px;overflow-wrap:anywhere;
+}
+.summary-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:8px;margin-top:16px;
+}
+.summary-mini{
+  padding:11px 5px;border-radius:13px;
+  background:#f8fafc;text-align:center;
+}
+.summary-mini strong{display:block;font-size:15px}
+.summary-mini span{color:var(--muted);font-size:10px}
+.card-title{
+  font-size:17px;font-weight:800;margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;
+}
+
+/* =====================================================
+   FORM
+===================================================== */
 .form-group{margin-bottom:14px}
-label{display:block;font-size:12px;font-weight:700;color:#374151;margin-bottom:7px}
-input,select,textarea{width:100%;border:1px solid var(--border);background:#f9fafb;border-radius:12px;padding:13px;font-size:15px;color:var(--text);outline:none}
-input:focus,select:focus,textarea:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px #4f46e51a}
-textarea{resize:vertical;min-height:75px}
+label{
+  display:block;font-size:12px;font-weight:700;
+  margin-bottom:7px;color:#374151;
+}
+input,select,textarea{
+  width:100%;border:1px solid var(--border);
+  background:#f9fafb;border-radius:13px;
+  padding:14px;font-size:15px;color:var(--text);
+  outline:none;transition:.2s;font-family:inherit;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--primary);background:#fff;
+  box-shadow:0 0 0 3px rgba(79,70,229,.10);
+}
+textarea{min-height:90px;resize:vertical}
+.user-row{display:grid;grid-template-columns:1.2fr 1fr;gap:10px}
 .otp-wrapper{position:relative}
-.otp-wrapper input{padding-right:66px}
-.toggle-otp{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--primary);font-weight:800;font-size:11px;cursor:pointer}
-.otp-status,.delete-otp-status{font-size:11px;margin-top:6px;min-height:15px}
-.valid{color:var(--green)}.invalid{color:var(--red)}
-.receipt-upload{border:2px dashed #c7d2fe;background:linear-gradient(135deg,#eef2ff,#f5f3ff);border-radius:15px;padding:22px 12px;text-align:center;position:relative}
-.receipt-upload input{background:none;border:0;padding:8px}
-.upload-icon{font-size:28px;margin-bottom:6px}
+.otp-wrapper input{padding-right:65px}
+.toggle-otp{
+  position:absolute;right:10px;top:50%;
+  transform:translateY(-50%);border:none;background:none;
+  font-size:11px;color:var(--primary);font-weight:700;cursor:pointer;
+}
+.otp-status{font-size:11px;margin-top:6px;min-height:15px}
+.otp-valid{color:var(--success)}
+.otp-invalid{color:var(--danger)}
+
+/* =====================================================
+   RECEIPT UPLOAD
+===================================================== */
+.receipt-upload{
+  border:2px dashed #c7d2fe;
+  background:linear-gradient(135deg,#eef2ff,#f5f3ff);
+  border-radius:16px;min-height:125px;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;cursor:pointer;position:relative;overflow:hidden;
+  padding:15px;
+}
+.receipt-upload input{
+  position:absolute;inset:0;opacity:0;cursor:pointer;padding:0;
+}
+.upload-content{pointer-events:none}
+.upload-icon{font-size:31px;margin-bottom:5px}
 .upload-title{font-weight:800;font-size:13px}
-.upload-subtitle{font-size:11px;color:var(--muted);margin-top:5px}
-.receipt-preview{display:none;background:#f8fafc;border-radius:12px;padding:10px;margin-top:10px}
-.receipt-preview img{display:block;max-width:100%;max-height:220px;object-fit:contain;margin:auto}
-.file-name{font-size:11px;color:var(--muted);margin-top:7px;overflow-wrap:anywhere}
-.save-btn,.export-btn{width:100%;border:0;border-radius:13px;padding:15px;background:linear-gradient(135deg,var(--primary),var(--purple));color:#fff;font-weight:800;font-size:14px;cursor:pointer}
-.save-btn:disabled{opacity:.55;cursor:not-allowed}
-.filter-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:13px}
-.transaction{border:1px solid var(--border);border-radius:14px;padding:13px;margin-bottom:10px;background:#fff}
-.transaction-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.transaction-category{display:inline-block;background:#eef2ff;color:var(--primary);padding:5px 8px;border-radius:7px;font-size:10px;font-weight:800;margin-bottom:6px}
+.upload-subtitle{font-size:10px;color:var(--muted);margin-top:4px}
+.receipt-preview{
+  display:none;margin-top:10px;border-radius:13px;
+  overflow:hidden;background:#f8fafc;padding:8px;
+}
+.receipt-preview img{
+  width:100%;max-height:220px;object-fit:contain;border-radius:10px;
+}
+.file-name{
+  font-size:11px;color:var(--muted);margin-top:6px;
+  word-break:break-word;
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+.save-btn,.export-btn{
+  width:100%;border:none;border-radius:14px;padding:16px;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:white;font-size:14px;font-weight:800;cursor:pointer;
+  box-shadow:0 10px 20px rgba(79,70,229,.25);
+  transition:.2s;
+}
+.save-btn:active{transform:scale(.98)}
+.save-btn:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
+.export-btn{
+  margin-top:12px;
+  background:linear-gradient(135deg,#059669,#047857);
+  box-shadow:none;
+}
+
+/* =====================================================
+   FILTERS AND TRANSACTIONS
+===================================================== */
+.filter-row{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:9px;margin-bottom:13px;
+}
+.transaction{
+  border:1px solid var(--border);border-radius:15px;
+  padding:14px;margin-bottom:10px;background:white;
+}
+.transaction-top{
+  display:flex;justify-content:space-between;
+  align-items:flex-start;gap:10px;
+}
+.transaction-category{
+  font-size:10px;font-weight:800;color:var(--primary);
+  background:#eef2ff;padding:5px 8px;border-radius:8px;
+  display:inline-block;margin-bottom:6px;
+}
 .transaction-reason{font-size:14px;font-weight:750;overflow-wrap:anywhere}
-.transaction-amount{font-size:16px;font-weight:850;white-space:nowrap}
-.transaction-meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;border-top:1px solid #f1f5f9;padding-top:10px;margin-top:10px;color:var(--muted);font-size:10px}
-.transaction-actions{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
-.small-btn{border:0;border-radius:9px;padding:8px 10px;font-size:11px;font-weight:800;cursor:pointer}
-.receipt-btn{background:#ecfdf5;color:var(--green)}
-.delete-btn{background:#fef2f2;color:var(--red)}
-.export-btn{margin-top:8px}
-.empty{text-align:center;padding:28px 10px;color:var(--muted)}
-.empty-icon{font-size:34px;margin-bottom:8px}
-.empty-title{font-weight:800;color:#374151;margin-bottom:5px}
-.empty-text{font-size:12px}
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#111827;color:white;padding:12px 17px;border-radius:12px;font-size:12px;box-shadow:0 10px 30px #0003;z-index:12000;display:none;max-width:90%;text-align:center}
-.modal-backdrop{display:none;position:fixed;inset:0;z-index:11000;background:#0f172a99;backdrop-filter:blur(4px);padding:18px;align-items:center;justify-content:center}
-.modal-backdrop.show{display:flex}
-.modal{width:100%;max-width:410px;background:white;border-radius:20px;padding:22px;box-shadow:0 24px 70px #0004}
-.modal-icon{width:47px;height:47px;display:grid;place-items:center;background:#fef2f2;border-radius:14px;font-size:22px;margin-bottom:12px}
-.modal h3{font-size:20px;margin-bottom:8px}
-.modal p{font-size:12px;line-height:1.5;color:var(--muted);margin-bottom:15px}
-.modal-record{background:#f8fafc;border:1px solid var(--border);border-radius:11px;padding:11px;margin-bottom:15px}
-.modal-record strong{display:block;font-size:13px;overflow-wrap:anywhere}
-.modal-record span{display:block;color:var(--red);font-weight:800;margin-top:5px}
-.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
-.modal-actions button{border:0;border-radius:11px;padding:13px 8px;font-weight:800;cursor:pointer}
-.cancel-btn{background:#f3f4f6;color:#374151}
-.confirm-btn{background:var(--red);color:#fff}
-.confirm-btn:disabled{opacity:.5;cursor:not-allowed}
-@media(max-width:380px){.main{padding:11px}.header{padding:19px 13px}.logo-title{font-size:16px}.month-badge{font-size:10px;padding:7px}.summary-card,.card{padding:14px}.summary-amount{font-size:29px}.filter-row{grid-template-columns:1fr}}
+.transaction-amount{font-size:17px;font-weight:850;white-space:nowrap}
+.transaction-meta{
+  display:flex;justify-content:space-between;gap:8px;
+  margin-top:11px;padding-top:10px;
+  border-top:1px solid #f1f5f9;font-size:10px;color:var(--muted);
+}
+.transaction-actions{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+.small-btn{
+  border:none;border-radius:9px;padding:8px 10px;
+  font-size:11px;font-weight:700;cursor:pointer;
+}
+.receipt-btn{background:#ecfdf5;color:var(--success)}
+.delete-btn{background:#fef2f2;color:var(--danger)}
+.empty{text-align:center;padding:28px 10px;color:var(--muted);font-size:13px}
+
+/* =====================================================
+   DELETE MODAL
+===================================================== */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(17,24,39,.68);
+  display:none;align-items:center;justify-content:center;
+  padding:18px;z-index:900;
+}
+.modal-overlay.open{display:flex}
+.delete-modal{
+  width:100%;max-width:380px;background:#fff;border-radius:20px;
+  padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.2);
+  max-height:90vh;overflow:auto;
+}
+.delete-modal-icon{
+  width:48px;height:48px;display:grid;place-items:center;
+  border-radius:15px;background:#fef2f2;color:#dc2626;
+  font-size:23px;margin-bottom:13px;
+}
+.delete-modal h3{font-size:20px;margin-bottom:7px;color:#111827}
+.delete-modal p{color:#6b7280;font-size:13px;line-height:1.5;margin-bottom:15px}
+.delete-modal-record{
+  background:#f8fafc;border:1px solid #e5e7eb;
+  border-radius:12px;padding:11px;margin-bottom:16px;
+}
+.delete-modal-record strong{display:block;font-size:13px;overflow-wrap:anywhere}
+.delete-modal-record span{display:block;color:#dc2626;font-weight:800;margin-top:4px}
+.delete-modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:17px}
+.delete-modal-actions button{
+  border:0;border-radius:12px;padding:13px 10px;
+  font-size:13px;font-weight:800;cursor:pointer;
+}
+.delete-cancel-btn{background:#f3f4f6;color:#374151}
+.delete-confirm-btn{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff}
+.delete-otp-status{min-height:17px;font-size:12px;margin-top:7px}
+.delete-otp-status.error{color:#dc2626}
+.delete-otp-status.success{color:#059669}
+
+/* =====================================================
+   TOAST AND MOBILE
+===================================================== */
+.toast{
+  position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);
+  opacity:0;pointer-events:none;background:#111827;color:#fff;
+  padding:12px 18px;border-radius:12px;font-size:12px;
+  z-index:1000;max-width:90%;text-align:center;transition:.25s;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.error{background:#b91c1c}
+.toast.success{background:#047857}
+@media(max-width:380px){
+  .main{padding:11px}
+  .header{padding:18px 12px}
+  .logo-title{font-size:16px}
+  .logo-icon{width:38px;height:38px}
+  .month-picker{width:125px;font-size:11px}
+  .card,.summary-card{padding:14px}
+  .summary-amount{font-size:27px}
+  .user-row{grid-template-columns:1fr}
+  .transaction-amount{font-size:14px}
+}
 </style>
 </head>
 
 <body>
 <div class="app">
-  <header class="header">
-    <div class="header-top">
-      <div class="logo">
-        <div class="logo-icon">💰</div>
-        <div>
-          <div class="logo-title">Sonesta Silver Oak</div>
-          <div class="logo-subtitle">Monthly Cash Record</div>
-        </div>
+
+<header class="header">
+  <div class="header-top">
+    <div class="logo">
+      <div class="logo-icon">💰</div>
+      <div>
+        <div class="logo-title">Sonesta Silver Oak Monthly Cash Record</div>
+        <div class="logo-subtitle">Monthly Expense Tracker</div>
       </div>
-      <div class="month-badge" id="headerMonth"></div>
     </div>
-  </header>
 
-  <main class="main">
-    <section class="summary-card">
-      <div class="summary-label" id="summaryMonthLabel">Total Spent This Month</div>
-      <div class="summary-amount" id="totalAmount">₹0</div>
-      <div class="summary-grid">
-        <div class="summary-mini"><strong id="transactionCount">0</strong><span>Transactions</span></div>
-        <div class="summary-mini"><strong id="userCount">0</strong><span>Users</span></div>
-        <div class="summary-mini"><strong id="categoryCount">0</strong><span>Categories</span></div>
-      </div>
-    </section>
+    <div class="month-picker-wrap">
+      <input type="month" class="month-picker" id="headerMonth" aria-label="Select month and year">
+    </div>
+  </div>
+</header>
 
-    <section class="card">
-      <div class="card-title">➕ Add Cash Expense</div>
-      <form id="expenseForm">
+<main class="main">
+
+  <section class="summary-card">
+    <div class="summary-label" id="summaryLabel">Total Spent This Month</div>
+    <div class="summary-amount" id="totalAmount">₹0</div>
+    <div class="summary-grid">
+      <div class="summary-mini"><strong id="transactionCount">0</strong><span>Transactions</span></div>
+      <div class="summary-mini"><strong id="userCount">0</strong><span>Users</span></div>
+      <div class="summary-mini"><strong id="categoryCount">0</strong><span>Categories</span></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-title">➕ Add Cash Expense</div>
+    <form id="expenseForm">
+      <div class="user-row">
         <div class="form-group">
           <label for="username">👤 Username</label>
-          <select id="username" required>
-            <option value="">Select User</option>
-          </select>
+          <select id="username" required><option value="">Select User</option></select>
         </div>
-
         <div class="form-group">
           <label for="otp">🔐 Your 4-Digit OTP</label>
           <div class="otp-wrapper">
-            <input type="password" id="otp" maxlength="4" minlength="4" pattern="[0-9]{4}" inputmode="numeric" autocomplete="off" placeholder="Enter your OTP" required>
+            <input type="password" id="otp" maxlength="4" minlength="4" pattern="[0-9]{4}" inputmode="numeric" autocomplete="off" placeholder="Enter OTP" required>
             <button type="button" class="toggle-otp" id="toggleOtp">SHOW</button>
           </div>
           <div id="otpStatus" class="otp-status"></div>
         </div>
+      </div>
 
-        <div class="form-group">
-          <label for="amount">💵 Amount (₹)</label>
-          <input type="number" id="amount" min="0.01" step="0.01" placeholder="Enter amount" required>
-        </div>
+      <div class="form-group">
+        <label for="amount">💵 Amount (₹)</label>
+        <input type="number" id="amount" min="0.01" step="0.01" placeholder="Enter amount" required>
+      </div>
 
-        <div class="form-group">
-          <label for="category">📂 Category</label>
-          <select id="category" required>
-            <option value="">Select Category</option>
-            <option>Food</option>
-            <option>Maintenance</option>
-            <option>Electricity</option>
-            <option>Water</option>
-            <option>Cleaning</option>
-            <option>Security</option>
-            <option>Gardening</option>
-            <option>Accommodation</option>
-            <option>Transport</option>
-            <option>Office Supplies</option>
-            <option>Other</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="reason">📝 Reason for Spending</label>
-          <input type="text" id="reason" maxlength="150" placeholder="What was the money spent for?" required>
-        </div>
-
-        <div class="form-group">
-          <label for="comments">💬 Comments (Optional)</label>
-          <textarea id="comments" maxlength="500" placeholder="Add any additional details"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="receipt">🧾 Receipt (Optional)</label>
-          <div class="receipt-upload">
-            <div class="upload-icon">📷</div>
-            <div class="upload-title">Upload Receipt</div>
-            <div class="upload-subtitle">Choose a photo or PDF file</div>
-            <input type="file" id="receipt" accept="image/*,.pdf">
-          </div>
-          <div class="receipt-preview" id="receiptPreview">
-            <img id="previewImage" alt="Receipt preview" hidden>
-            <div class="file-name" id="fileName"></div>
-          </div>
-        </div>
-
-        <button type="submit" class="save-btn" id="saveBtn" disabled>🔒 ENTER USER & OTP</button>
-      </form>
-    </section>
-
-    <!-- TRANSACTION HISTORY: KEPT AT THE BOTTOM OF THE PAGE -->
-    <section class="card" id="transactionHistory">
-      <div class="card-title" id="transactionHeading">📋 Transaction History</div>
-      <div class="filter-row">
-        <select id="filterUser" aria-label="Filter by user">
-          <option value="">All Users</option>
-        </select>
-        <select id="filterCategory" aria-label="Filter by category">
-          <option value="">All Categories</option>
+      <div class="form-group">
+        <label for="category">📂 Expense Category</label>
+        <select id="category" required>
+          <option value="">Select Category</option>
+          <option>Food</option><option>Groceries</option><option>Transport</option>
+          <option>Shopping</option><option>Medical</option><option>Utilities</option>
+          <option>Maintenance</option><option>Education</option><option>Entertainment</option>
+          <option>Travel</option><option>Other</option>
         </select>
       </div>
-      <div id="transactionList"></div>
-      <button class="export-btn" id="exportBtn" type="button">📥 Export Transactions to CSV</button>
-    </section>
-  </main>
-</div>
 
-<!-- DELETE AUTHORIZATION POPUP -->
-<div class="modal-backdrop" id="deleteModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
-  <div class="modal">
-    <div class="modal-icon">🗑️</div>
-    <h3 id="deleteModalTitle">Verify to delete record</h3>
-    <p>Select the user who created this transaction and enter that user's 4-digit OTP to authorize deletion.</p>
-    <div class="modal-record">
-      <strong id="deleteRecordReason">Transaction</strong>
-      <span id="deleteRecordAmount">₹0</span>
-    </div>
-    <div class="form-group">
-      <label for="deleteUsername">👤 Username</label>
-      <select id="deleteUsername" required>
-        <option value="">Select User</option>
+      <div class="form-group">
+        <label for="reason">📝 Reason for Spending</label>
+        <input type="text" id="reason" maxlength="250" placeholder="Enter expense reason" required>
+      </div>
+
+      <div class="form-group">
+        <label>🧾 Upload Receipt (Optional)</label>
+        <div class="receipt-upload">
+          <input type="file" id="receipt" accept="image/*,application/pdf">
+          <div class="upload-content">
+            <div class="upload-icon">📎</div>
+            <div class="upload-title">Tap to upload receipt</div>
+            <div class="upload-subtitle">Images or PDF · Maximum 5 MB</div>
+          </div>
+        </div>
+        <div class="receipt-preview" id="receiptPreview">
+          <img id="previewImage" alt="Receipt preview" style="display:none">
+          <div class="file-name" id="fileName"></div>
+        </div>
+      </div>
+
+      <button type="submit" class="save-btn" id="saveBtn">🔒 Verify OTP &amp; Save Expense</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <div class="card-title">📋 Transaction History</div>
+    <div class="filter-row">
+      <select id="filterUser" aria-label="Filter by user"><option value="">All Users</option></select>
+      <select id="filterCategory" aria-label="Filter by category">
+        <option value="">All Categories</option>
+        <option>Food</option><option>Groceries</option><option>Transport</option>
+        <option>Shopping</option><option>Medical</option><option>Utilities</option>
+        <option>Maintenance</option><option>Education</option><option>Entertainment</option>
+        <option>Travel</option><option>Other</option>
       </select>
     </div>
+    <div id="transactionList"></div>
+    <button class="export-btn" id="exportBtn" type="button">⬇ Export Selected Month to CSV</button>
+  </section>
+
+</main>
+</div>
+
+<div class="modal-overlay" id="deleteModalOverlay" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+  <div class="delete-modal">
+    <div class="delete-modal-icon">🗑️</div>
+    <h3 id="deleteTitle">Delete Transaction</h3>
+    <p>Select the transaction owner and enter their OTP to confirm deletion.</p>
+    <div class="delete-modal-record">
+      <strong id="deleteRecordReason"></strong>
+      <span id="deleteRecordAmount"></span>
+    </div>
     <div class="form-group">
-      <label for="deleteOtp">🔐 4-Digit OTP</label>
+      <label for="deleteUser">Transaction Owner</label>
+      <select id="deleteUser" required><option value="">Select User</option></select>
+    </div>
+    <div class="form-group">
+      <label for="deleteOtp">Owner's 4-Digit OTP</label>
       <div class="otp-wrapper">
-        <input type="password" id="deleteOtp" maxlength="4" minlength="4" pattern="[0-9]{4}" inputmode="numeric" autocomplete="off" placeholder="Enter user OTP" required>
+        <input type="password" id="deleteOtp" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" autocomplete="off" placeholder="Enter OTP">
         <button type="button" class="toggle-otp" id="toggleDeleteOtp">SHOW</button>
       </div>
-      <div class="delete-otp-status" id="deleteOtpStatus" aria-live="polite"></div>
+      <div id="deleteOtpStatus" class="delete-otp-status"></div>
     </div>
-    <div class="modal-actions">
-      <button type="button" class="cancel-btn" id="cancelDelete">Cancel</button>
-      <button type="button" class="confirm-btn" id="confirmDelete" disabled>Verify & Delete</button>
+    <div class="delete-modal-actions">
+      <button type="button" class="delete-cancel-btn" id="cancelDelete">Cancel</button>
+      <button type="button" class="delete-confirm-btn" id="confirmDelete">Verify &amp; Delete</button>
     </div>
   </div>
 </div>
@@ -232,22 +444,36 @@ textarea{resize:vertical;min-height:75px}
 <script>
 "use strict";
 
-/*
- * Each user has a distinct 4-digit OTP.
- * These values are client-side demo credentials, not secure authentication.
- */
-const USERS = Object.freeze({
-  "Anand": "4821",
-  "Amit": "7392",
-  "Ashiwini": "6158",
-  "Ravi": "9274",
-  "Jayant": "3618",
-  "Divank": "1850",
-  "Sandeep": "9522"
-});
+/* Demo OTPs. These are visible in client-side HTML. */
+const USERS = {
+  "Anand":"4821",
+  "Amit":"7392",
+  "Ashiwini":"6158",
+  "Ravi":"9274",
+  "Jayant":"3618",
+  "Divank":"1850",
+  "Sandeep":"9522"
+};
 
-const STORAGE_KEY = "sonestaSilverOakCashTransactions_v1";
+const STORAGE_KEY = "cashTransactions";
 const $ = id => document.getElementById(id);
+
+const headerMonth = $("headerMonth");
+const username = $("username");
+const otp = $("otp");
+const otpStatus = $("otpStatus");
+const amount = $("amount");
+const category = $("category");
+const reason = $("reason");
+const receipt = $("receipt");
+const receiptPreview = $("receiptPreview");
+const previewImage = $("previewImage");
+const fileName = $("fileName");
+const saveBtn = $("saveBtn");
+const transactionList = $("transactionList");
+const filterUser = $("filterUser");
+const filterCategory = $("filterCategory");
+const toast = $("toast");
 
 let pendingDeleteId = null;
 let toastTimer = null;
@@ -255,20 +481,11 @@ let selectedReceiptData = "";
 let selectedReceiptName = "";
 let selectedReceiptType = "";
 
-const currency = amount => new Intl.NumberFormat("en-IN", {
-  style: "currency", currency: "INR", maximumFractionDigits: 2
-}).format(Number(amount) || 0);
-
-const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, char => ({
-  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-}[char]));
-
 function getTransactions() {
   try {
-    const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    return Array.isArray(value) ? value : [];
-  } catch (error) {
-    console.error("Could not read saved transactions", error);
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    return Array.isArray(data) ? data : [];
+  } catch {
     return [];
   }
 }
@@ -279,347 +496,188 @@ function saveTransactions(transactions) {
     return true;
   } catch (error) {
     console.error(error);
-    showToast("Unable to save. Browser storage may be full.", true);
+    showToast("Unable to save. Browser storage may be full.", "error");
     return false;
   }
 }
 
-function showToast(message, isError = false) {
-  const toast = $("toast");
-  toast.textContent = message;
-  toast.style.background = isError ? "#b91c1c" : "#111827";
-  toast.style.display = "block";
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.style.display = "none", 3000);
+function getTodayMonth() {
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
 }
 
-function populateUserOptions() {
-  const names = Object.keys(USERS);
-  ["username", "filterUser", "deleteUsername"].forEach(id => {
-    const select = $(id);
-    const previous = select.value;
-    select.innerHTML = id === "filterUser"
-      ? '<option value="">All Users</option>'
-      : id === "username"
-        ? '<option value="">Select User</option>'
-        : '<option value="">Select User</option>';
+function getCurrentMonth() {
+  return headerMonth.value || getTodayMonth();
+}
 
-    names.forEach(name => {
+function formatMonthName(monthKey) {
+  if (!/^\d{4}-\d{2}$/.test(monthKey || "")) return monthKey;
+  const [year, month] = monthKey.split("-").map(Number);
+  return new Date(year, month - 1, 1).toLocaleString("en-IN", {
+    month: "long",
+    year: "numeric"
+  });
+}
+
+function initializeMonthPicker() {
+  headerMonth.value = getTodayMonth();
+
+  /* Permit selecting any month through the browser's native picker. */
+  headerMonth.max = getTodayMonth();
+
+  /* If later-dated transactions exist, do not prevent viewing their month. */
+  const months = getTransactions()
+    .map(t => t.month)
+    .filter(m => /^\d{4}-\d{2}$/.test(m || ""))
+    .sort();
+
+  if (months.length && months[months.length - 1] > headerMonth.max) {
+    headerMonth.max = months[months.length - 1];
+  }
+}
+
+function initializeUsers() {
+  Object.keys(USERS).forEach(user => {
+    [username, filterUser, $("deleteUser")].forEach(select => {
       const option = document.createElement("option");
-      option.value = name;
-      option.textContent = name;
+      option.value = user;
+      option.textContent = user;
       select.appendChild(option);
     });
-
-    if (names.includes(previous)) select.value = previous;
   });
-
-  const categorySelect = $("filterCategory");
-  const previousCategory = categorySelect.value;
-  const categories = [...new Set([
-    ...getTransactions().map(t => t.category),
-    ...Array.from($("category").options).map(o => o.value).filter(Boolean)
-  ])].sort();
-
-  categorySelect.innerHTML = '<option value="">All Categories</option>';
-  categories.forEach(category => {
-    const option = document.createElement("option");
-    option.value = category;
-    option.textContent = category;
-    categorySelect.appendChild(option);
-  });
-  categorySelect.value = categories.includes(previousCategory) ? previousCategory : "";
 }
 
-function validateOTP() {
-  const user = $("username").value;
-  const otp = $("otp").value.trim();
-  const status = $("otpStatus");
-  const button = $("saveBtn");
-
-  if (!user || !otp) {
-    status.textContent = "";
-    status.className = "otp-status";
-    button.disabled = true;
-    button.textContent = "🔒 ENTER USER & OTP";
-    return false;
-  }
-
-  const valid = Object.prototype.hasOwnProperty.call(USERS, user) &&
-                USERS[user] === otp;
-
-  status.textContent = valid ? "✓ OTP verified" : "✕ Incorrect user or OTP";
-  status.className = "otp-status " + (valid ? "valid" : "invalid");
-  button.disabled = !valid;
-  button.textContent = valid ? "💾 SAVE CASH EXPENSE" : "🔒 VERIFY OTP TO SAVE";
-  return valid;
+function validateUserOTP(user, enteredOTP) {
+  return Boolean(user && USERS[user] && USERS[user] === enteredOTP);
 }
 
-$("username").addEventListener("change", () => {
-  $("otp").value = "";
-  validateOTP();
-});
-$("otp").addEventListener("input", validateOTP);
+function formatCurrency(value) {
+  return new Intl.NumberFormat("en-IN", {
+    style:"currency",
+    currency:"INR",
+    maximumFractionDigits:2
+  }).format(Number(value) || 0);
+}
 
-$("toggleOtp").addEventListener("click", () => {
-  const field = $("otp");
-  field.type = field.type === "password" ? "text" : "password";
-  $("toggleOtp").textContent = field.type === "password" ? "SHOW" : "HIDE";
-});
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
 
-$("receipt").addEventListener("change", event => {
-  const file = event.target.files[0];
-  selectedReceiptData = "";
-  selectedReceiptName = "";
-  selectedReceiptType = "";
-  $("previewImage").hidden = true;
-  $("previewImage").removeAttribute("src");
-  $("fileName").textContent = "";
-  $("receiptPreview").style.display = "none";
+function showToast(message, type = "") {
+  clearTimeout(toastTimer);
+  toast.textContent = message;
+  toast.className = "toast show " + type;
+  toastTimer = setTimeout(() => toast.className = "toast", 3000);
+}
 
-  if (!file) return;
+function generateTransactionId() {
+  return "TXN-" + Date.now().toString(36).toUpperCase() + "-" +
+    Math.random().toString(36).slice(2,7).toUpperCase();
+}
 
-  if (file.size > 4 * 1024 * 1024) {
-    showToast("Please choose a receipt smaller than 4 MB.", true);
-    event.target.value = "";
-    return;
-  }
-
-  const allowed = file.type.startsWith("image/") || file.type === "application/pdf";
-  if (!allowed) {
-    showToast("Please upload an image or PDF receipt.", true);
-    event.target.value = "";
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = () => {
-    selectedReceiptData = String(reader.result || "");
-    selectedReceiptName = file.name;
-    selectedReceiptType = file.type;
-    $("fileName").textContent = file.name;
-    $("receiptPreview").style.display = "block";
-
-    if (file.type.startsWith("image/")) {
-      $("previewImage").src = selectedReceiptData;
-      $("previewImage").hidden = false;
-    } else {
-      $("fileName").textContent = file.name + " (PDF receipt attached)";
-    }
-  };
-  reader.onerror = () => showToast("Could not read the receipt file.", true);
-  reader.readAsDataURL(file);
-});
-
-$("expenseForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  if (!validateOTP()) {
-    showToast("Select your username and enter the correct OTP.", true);
-    return;
-  }
-
-  const amount = Number($("amount").value);
-  if (!Number.isFinite(amount) || amount <= 0) {
-    showToast("Enter a valid amount.", true);
-    return;
-  }
-
-  const transaction = {
-    id: (crypto.randomUUID ? crypto.randomUUID() : Date.now() + "-" + Math.random().toString(16).slice(2)),
-    username: $("username").value,
-    amount,
-    category: $("category").value,
-    reason: $("reason").value.trim(),
-    comments: $("comments").value.trim(),
-    date: new Date().toISOString(),
-    receiptData: selectedReceiptData,
-    receiptName: selectedReceiptName,
-    receiptType: selectedReceiptType
-  };
-
-  const transactions = getTransactions();
-  transactions.unshift(transaction);
-
-  if (!saveTransactions(transactions)) return;
-
-  $("expenseForm").reset();
-  selectedReceiptData = "";
-  selectedReceiptName = "";
-  selectedReceiptType = "";
-  $("receiptPreview").style.display = "none";
-  $("previewImage").hidden = true;
-  $("fileName").textContent = "";
-  validateOTP();
-  populateUserOptions();
-  renderTransactions();
-  showToast("Cash expense saved successfully.");
-});
-
-function sameMonth(dateValue, now = new Date()) {
-  const date = new Date(dateValue);
-  return date.getFullYear() === now.getFullYear() &&
-         date.getMonth() === now.getMonth();
+function readFileAsDataURL(file) {
+  return new Promise((resolve,reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error("Unable to read receipt."));
+    reader.readAsDataURL(file);
+  });
 }
 
 function updateSummary() {
-  const all = getTransactions();
-  const thisMonth = all.filter(t => sameMonth(t.date));
-  const total = thisMonth.reduce((sum, t) => sum + Number(t.amount || 0), 0);
-  const users = new Set(thisMonth.map(t => t.username));
-  const categories = new Set(thisMonth.map(t => t.category));
+  const month = getCurrentMonth();
+  const transactions = getTransactions().filter(t => t.month === month);
+  const total = transactions.reduce((sum,t) => sum + Number(t.amount || 0),0);
 
-  $("totalAmount").textContent = currency(total);
-  $("transactionCount").textContent = thisMonth.length;
-  $("userCount").textContent = users.size;
-  $("categoryCount").textContent = categories.size;
-
-  const monthName = new Date().toLocaleDateString("en-IN", {month:"long", year:"numeric"});
-  $("headerMonth").textContent = monthName;
-  $("summaryMonthLabel").textContent = "Total Spent — " + monthName;
+  $("summaryLabel").textContent = "Total Spent — " + formatMonthName(month);
+  $("totalAmount").textContent = formatCurrency(total);
+  $("transactionCount").textContent = transactions.length;
+  $("userCount").textContent = new Set(transactions.map(t => t.username)).size;
+  $("categoryCount").textContent = new Set(transactions.map(t => t.category)).size;
 }
 
 function renderTransactions() {
-  const all = getTransactions();
-  const user = $("filterUser").value;
-  const category = $("filterCategory").value;
+  const month = getCurrentMonth();
+  const userFilterValue = filterUser.value;
+  const categoryFilterValue = filterCategory.value;
 
-  const filtered = all.filter(t =>
-    (!user || t.username === user) &&
-    (!category || t.category === category)
-  );
+  const transactions = getTransactions()
+    .filter(t => t.month === month)
+    .filter(t => !userFilterValue || t.username === userFilterValue)
+    .filter(t => !categoryFilterValue || t.category === categoryFilterValue)
+    .sort((a,b) => new Date(b.date) - new Date(a.date));
 
-  $("transactionHeading").textContent = `📋 Transaction History (${filtered.length})`;
-  const list = $("transactionList");
+  transactionList.innerHTML = "";
 
-  if (!filtered.length) {
-    list.innerHTML = `
-      <div class="empty">
-        <div class="empty-icon">💸</div>
-        <div class="empty-title">No transactions found</div>
-        <div class="empty-text">Add your first cash expense above.</div>
-      </div>`;
-    updateSummary();
+  if (!transactions.length) {
+    transactionList.innerHTML =
+      '<div class="empty">📭 No transactions found for ' +
+      escapeHTML(formatMonthName(month)) + '.</div>';
     return;
   }
 
-  list.innerHTML = filtered.map(t => {
-    const date = new Date(t.date);
-    const dateText = Number.isNaN(date.getTime()) ? "" : date.toLocaleString("en-IN", {
-      day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit"
-    });
+  transactions.forEach(t => {
+    const item = document.createElement("div");
+    item.className = "transaction";
+    const dateText = t.date
+      ? new Date(t.date).toLocaleDateString("en-IN", {
+          day:"2-digit",month:"short",year:"numeric"
+        })
+      : "";
 
-    const hasReceipt = Boolean(t.receiptData);
-    return `
-      <article class="transaction">
-        <div class="transaction-top">
-          <div>
-            <div class="transaction-category">${escapeHTML(t.category)}</div>
-            <div class="transaction-reason">${escapeHTML(t.reason)}</div>
-          </div>
-          <div class="transaction-amount">${currency(t.amount)}</div>
+    item.innerHTML = `
+      <div class="transaction-top">
+        <div>
+          <span class="transaction-category">${escapeHTML(t.category)}</span>
+          <div class="transaction-reason">${escapeHTML(t.reason)}</div>
         </div>
-        ${t.comments ? `<div style="font-size:12px;color:#6b7280;margin-top:8px;overflow-wrap:anywhere">${escapeHTML(t.comments)}</div>` : ""}
-        <div class="transaction-meta">
-          <span>👤 ${escapeHTML(t.username)}</span>
-          <span>${escapeHTML(dateText)}</span>
-        </div>
-        <div class="transaction-actions">
-          ${hasReceipt ? `<button type="button" class="small-btn receipt-btn" data-receipt="${escapeHTML(t.id)}">🧾 View Receipt</button>` : ""}
-          <button type="button" class="small-btn delete-btn" data-delete="${escapeHTML(t.id)}">🗑 Delete</button>
-        </div>
-      </article>`;
-  }).join("");
-
-  updateSummary();
+        <div class="transaction-amount">${formatCurrency(t.amount)}</div>
+      </div>
+      <div class="transaction-meta">
+        <span>👤 ${escapeHTML(t.username)}</span>
+        <span>${escapeHTML(dateText)}</span>
+      </div>
+      <div class="transaction-actions">
+        ${t.receiptData ? `<button class="small-btn receipt-btn" type="button" data-action="receipt" data-id="${escapeHTML(t.id)}">🧾 View Receipt</button>` : ""}
+        <button class="small-btn delete-btn" type="button" data-action="delete" data-id="${escapeHTML(t.id)}">🗑 Delete</button>
+      </div>`;
+    transactionList.appendChild(item);
+  });
 }
 
-$("filterUser").addEventListener("change", renderTransactions);
-$("filterCategory").addEventListener("change", renderTransactions);
+function refreshAll() {
+  updateSummary();
+  renderTransactions();
+}
 
-$("transactionList").addEventListener("click", event => {
-  const receiptButton = event.target.closest("[data-receipt]");
-  const deleteButton = event.target.closest("[data-delete]");
+function resetExpenseForm() {
+  $("expenseForm").reset();
+  otpStatus.textContent = "";
+  otpStatus.className = "otp-status";
+  selectedReceiptData = "";
+  selectedReceiptName = "";
+  selectedReceiptType = "";
+  receiptPreview.style.display = "none";
+  previewImage.style.display = "none";
+  previewImage.removeAttribute("src");
+  fileName.textContent = "";
+}
 
-  if (receiptButton) viewReceipt(receiptButton.dataset.receipt);
-  if (deleteButton) openDeleteModal(deleteButton.dataset.delete);
+/* Month picker updates every month-specific section. */
+headerMonth.addEventListener("change", () => {
+  if (!headerMonth.value) headerMonth.value = getTodayMonth();
+  refreshAll();
 });
 
-function viewReceipt(id) {
-  const transaction = getTransactions().find(t => t.id === id);
-  if (!transaction || !transaction.receiptData) {
-    showToast("Receipt not found.", true);
-    return;
-  }
-
-  const win = window.open("", "_blank");
-  if (!win) {
-    showToast("Allow popups to view the receipt.", true);
-    return;
-  }
-
-  if (transaction.receiptType && transaction.receiptType.startsWith("image/")) {
-    win.document.write(`<!DOCTYPE html><html><head><title>Receipt</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;background:#111827;display:grid;place-items:center;min-height:100vh}img{max-width:100%;max-height:100vh;object-fit:contain}</style></head><body><img src="${transaction.receiptData}" alt="Receipt"></body></html>`);
-  } else {
-    const link = win.document.createElement("a");
-    link.href = transaction.receiptData;
-    link.download = transaction.receiptName || "receipt.pdf";
-    link.textContent = "Download receipt";
-    win.document.body.appendChild(link);
-    win.document.body.style.cssText = "font-family:Arial;padding:30px";
-    link.click();
-  }
-  win.document.close();
-}
-
-function openDeleteModal(id) {
-  const transaction = getTransactions().find(t => t.id === id);
-  if (!transaction) return;
-
-  pendingDeleteId = id;
-  $("deleteRecordReason").textContent = transaction.reason || transaction.category;
-  $("deleteRecordAmount").textContent = currency(transaction.amount);
-  $("deleteUsername").value = "";
-  $("deleteOtp").value = "";
-  $("deleteOtp").type = "password";
-  $("toggleDeleteOtp").textContent = "SHOW";
-  $("deleteOtpStatus").textContent = "";
-  $("deleteOtpStatus").className = "delete-otp-status";
-  $("confirmDelete").disabled = true;
-  $("deleteModalBackdrop").classList.add("show");
-}
-
-function closeDeleteModal() {
-  pendingDeleteId = null;
-  $("deleteModalBackdrop").classList.remove("show");
-}
-
-function validateDeleteOTP() {
-  const user = $("deleteUsername").value;
-  const otp = $("deleteOtp").value.trim();
-  const status = $("deleteOtpStatus");
-  const transaction = getTransactions().find(t => t.id === pendingDeleteId);
-
-  let valid = Boolean(user && otp && Object.prototype.hasOwnProperty.call(USERS, user) && USERS[user] === otp);
-
-  if (valid && transaction && transaction.username !== user) {
-    valid = false;
-    status.textContent = "This record belongs to " + transaction.username + ". Select that user.";
-    status.className = "delete-otp-status invalid";
-  } else if (user && otp) {
-    status.textContent = valid ? "✓ OTP verified" : "✕ Incorrect user or OTP";
-    status.className = "delete-otp-status " + (valid ? "valid" : "invalid");
-  } else {
-    status.textContent = "";
-    status.className = "delete-otp-status";
-  }
-
-  $("confirmDelete").disabled = !valid;
-  return valid;
-}
-
-$("deleteUsername").addEventListener("change", validateDeleteOTP);
-$("deleteOtp").addEventListener("input", validateDeleteOTP);
+$("toggleOtp").addEventListener("click", () => {
+  otp.type = otp.type === "password" ? "text" : "password";
+  $("toggleOtp").textContent = otp.type === "password" ? "SHOW" : "HIDE";
+});
 
 $("toggleDeleteOtp").addEventListener("click", () => {
   const field = $("deleteOtp");
@@ -627,84 +685,258 @@ $("toggleDeleteOtp").addEventListener("click", () => {
   $("toggleDeleteOtp").textContent = field.type === "password" ? "SHOW" : "HIDE";
 });
 
-$("cancelDelete").addEventListener("click", closeDeleteModal);
-$("deleteModalBackdrop").addEventListener("click", event => {
-  if (event.target === $("deleteModalBackdrop")) closeDeleteModal();
+username.addEventListener("change", () => {
+  otp.value = "";
+  otpStatus.textContent = "";
+  otpStatus.className = "otp-status";
 });
 
-$("confirmDelete").addEventListener("click", () => {
-  if (!pendingDeleteId || !validateDeleteOTP()) {
-    showToast("Verify the correct user's OTP before deleting.", true);
+otp.addEventListener("input", () => {
+  otp.value = otp.value.replace(/\D/g,"").slice(0,4);
+  if (otp.value.length === 4) {
+    const valid = validateUserOTP(username.value,otp.value);
+    otpStatus.textContent = valid ? "✓ OTP verified" : "✕ Incorrect OTP";
+    otpStatus.className = "otp-status " + (valid ? "otp-valid" : "otp-invalid");
+  } else {
+    otpStatus.textContent = "";
+    otpStatus.className = "otp-status";
+  }
+});
+
+receipt.addEventListener("change", async () => {
+  const file = receipt.files[0];
+  selectedReceiptData = "";
+  selectedReceiptName = "";
+  selectedReceiptType = "";
+  receiptPreview.style.display = "none";
+  previewImage.style.display = "none";
+
+  if (!file) return;
+
+  if (file.size > 5 * 1024 * 1024) {
+    receipt.value = "";
+    showToast("Receipt must be 5 MB or smaller.","error");
     return;
   }
 
-  const transaction = getTransactions().find(t => t.id === pendingDeleteId);
-  if (!transaction || transaction.username !== $("deleteUsername").value) {
-    showToast("Only the transaction owner can authorize deletion.", true);
+  if (!(file.type.startsWith("image/") || file.type === "application/pdf")) {
+    receipt.value = "";
+    showToast("Please upload an image or PDF receipt.","error");
     return;
   }
 
-  const updated = getTransactions().filter(t => t.id !== pendingDeleteId);
-  if (!saveTransactions(updated)) return;
+  try {
+    selectedReceiptData = await readFileAsDataURL(file);
+    selectedReceiptName = file.name;
+    selectedReceiptType = file.type;
+    fileName.textContent = file.name;
+    receiptPreview.style.display = "block";
 
-  closeDeleteModal();
-  populateUserOptions();
-  renderTransactions();
-  showToast("Transaction deleted.");
+    if (file.type.startsWith("image/")) {
+      previewImage.src = selectedReceiptData;
+      previewImage.style.display = "block";
+    }
+  } catch {
+    receipt.value = "";
+    showToast("Unable to read receipt.","error");
+  }
 });
 
-function csvCell(value) {
-  return '"' + String(value ?? "").replace(/"/g, '""') + '"';
+$("expenseForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const user = username.value;
+  if (!validateUserOTP(user,otp.value)) {
+    otpStatus.textContent = "✕ Please enter the correct OTP.";
+    otpStatus.className = "otp-status otp-invalid";
+    showToast("Invalid user OTP.","error");
+    return;
+  }
+
+  const enteredAmount = Number(amount.value);
+  if (!Number.isFinite(enteredAmount) || enteredAmount <= 0) {
+    showToast("Enter a valid amount greater than zero.","error");
+    amount.focus();
+    return;
+  }
+
+  if (!category.value || !reason.value.trim()) {
+    showToast("Please complete all required fields.","error");
+    return;
+  }
+
+  saveBtn.disabled = true;
+  saveBtn.textContent = "Saving...";
+
+  try {
+    const transactions = getTransactions();
+    transactions.push({
+      id:generateTransactionId(),
+      date:new Date().toISOString(),
+      month:getCurrentMonth(),
+      username:user,
+      amount:enteredAmount,
+      category:category.value,
+      reason:reason.value.trim(),
+      receiptName:selectedReceiptName,
+      receiptType:selectedReceiptType,
+      receiptData:selectedReceiptData,
+      receiptUrl:""
+    });
+
+    if (!saveTransactions(transactions)) return;
+
+    refreshAll();
+    resetExpenseForm();
+    showToast("Expense saved successfully.","success");
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = "🔒 Verify OTP & Save Expense";
+  }
+});
+
+filterUser.addEventListener("change",renderTransactions);
+filterCategory.addEventListener("change",renderTransactions);
+
+transactionList.addEventListener("click",event => {
+  const button = event.target.closest("button[data-action]");
+  if (!button) return;
+
+  const transaction = getTransactions().find(t => t.id === button.dataset.id);
+  if (!transaction) return;
+
+  if (button.dataset.action === "receipt") {
+    if (!transaction.receiptData) {
+      showToast("No receipt is attached.","error");
+      return;
+    }
+
+    const win = window.open();
+    if (!win) {
+      showToast("Please allow pop-ups to view the receipt.","error");
+      return;
+    }
+
+    if (transaction.receiptType === "application/pdf") {
+      const frame = win.document.createElement("iframe");
+      frame.src = transaction.receiptData;
+      frame.style.cssText = "border:0;width:100%;height:100vh";
+      win.document.body.appendChild(frame);
+    } else {
+      const img = win.document.createElement("img");
+      img.src = transaction.receiptData;
+      img.style.cssText = "max-width:100%;height:auto";
+      win.document.body.appendChild(img);
+    }
+    return;
+  }
+
+  if (button.dataset.action === "delete") {
+    pendingDeleteId = transaction.id;
+    $("deleteRecordReason").textContent = transaction.reason;
+    $("deleteRecordAmount").textContent = formatCurrency(transaction.amount);
+    $("deleteUser").value = "";
+    $("deleteOtp").value = "";
+    $("deleteOtp").type = "password";
+    $("toggleDeleteOtp").textContent = "SHOW";
+    $("deleteOtpStatus").textContent = "";
+    $("deleteOtpStatus").className = "delete-otp-status";
+    $("deleteModalOverlay").classList.add("open");
+  }
+});
+
+function closeDeleteModal() {
+  $("deleteModalOverlay").classList.remove("open");
+  pendingDeleteId = null;
 }
 
-$("exportBtn").addEventListener("click", () => {
-  const user = $("filterUser").value;
-  const category = $("filterCategory").value;
+$("cancelDelete").addEventListener("click",closeDeleteModal);
 
-  const transactions = getTransactions().filter(t =>
-    (!user || t.username === user) &&
-    (!category || t.category === category)
-  );
+$("deleteModalOverlay").addEventListener("click",event => {
+  if (event.target === $("deleteModalOverlay")) closeDeleteModal();
+});
 
-  if (!transactions.length) {
-    showToast("No transactions to export.", true);
+$("deleteOtp").addEventListener("input",() => {
+  $("deleteOtp").value = $("deleteOtp").value.replace(/\D/g,"").slice(0,4);
+  $("deleteOtpStatus").textContent = "";
+  $("deleteOtpStatus").className = "delete-otp-status";
+});
+
+$("confirmDelete").addEventListener("click",() => {
+  if (!pendingDeleteId) return;
+
+  const transaction = getTransactions().find(t => t.id === pendingDeleteId);
+  const selectedUser = $("deleteUser").value;
+  const enteredOTP = $("deleteOtp").value;
+  const status = $("deleteOtpStatus");
+
+  if (!transaction) {
+    status.textContent = "Transaction not found.";
+    status.className = "delete-otp-status error";
     return;
   }
 
-  const rows = [
-    ["Date", "User", "Amount", "Category", "Reason", "Comments", "Receipt filename"],
-    ...transactions.map(t => [
-      new Date(t.date).toLocaleString("en-IN"),
-      t.username,
-      t.amount,
-      t.category,
-      t.reason,
-      t.comments || "",
-      t.receiptName || ""
-    ])
-  ];
+  if (selectedUser !== transaction.username) {
+    status.textContent = "Select the transaction owner.";
+    status.className = "delete-otp-status error";
+    return;
+  }
 
-  const csv = "\uFEFF" + rows.map(row => row.map(csvCell).join(",")).join("\r\n");
-  const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+  if (!validateUserOTP(selectedUser,enteredOTP)) {
+    status.textContent = "Incorrect OTP. Deletion denied.";
+    status.className = "delete-otp-status error";
+    return;
+  }
+
+  const remaining = getTransactions().filter(t => t.id !== pendingDeleteId);
+  if (!saveTransactions(remaining)) return;
+
+  closeDeleteModal();
+  refreshAll();
+  showToast("Transaction deleted successfully.","success");
+});
+
+$("exportBtn").addEventListener("click",() => {
+  const month = getCurrentMonth();
+  const transactions = getTransactions()
+    .filter(t => t.month === month)
+    .sort((a,b) => new Date(a.date) - new Date(b.date));
+
+  if (!transactions.length) {
+    showToast("No transactions to export for this month.","error");
+    return;
+  }
+
+  const rows = [[
+    "Transaction ID","Date","Month","Username","Amount","Category","Reason","Receipt"
+  ]];
+
+  transactions.forEach(t => rows.push([
+    t.id,
+    t.date ? new Date(t.date).toLocaleDateString("en-IN") : "",
+    t.month,t.username,t.amount,t.category,t.reason,t.receiptName || ""
+  ]));
+
+  const csv = rows.map(row =>
+    row.map(value => '"' + String(value ?? "").replace(/"/g,'""') + '"').join(",")
+  ).join("\r\n");
+
+  const blob = new Blob(["\uFEFF" + csv],{type:"text/csv;charset=utf-8;"});
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = "Sonesta_Cash_Transactions_" + new Date().toISOString().slice(0,10) + ".csv";
+  link.download = "Cash_Records_" + month + ".csv";
   document.body.appendChild(link);
   link.click();
   link.remove();
   URL.revokeObjectURL(url);
-  showToast("CSV export downloaded.");
+  showToast("CSV exported successfully.","success");
 });
 
-function init() {
-  populateUserOptions();
-  updateSummary();
-  renderTransactions();
-  validateOTP();
-}
-
-init();
+/* Initialize */
+initializeUsers();
+initializeMonthPicker();
+refreshAll();
 </script>
 </body>
 </html>
